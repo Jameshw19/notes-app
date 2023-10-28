@@ -8,6 +8,8 @@ import { ElementRef, useRef, useState } from "react";
 import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 
+import TextAreaAutoSize from "react-textarea-autosize";
+
 interface ToolbarProps {
   initialData: Doc<"documents">;
   preview?: boolean;
@@ -96,7 +98,21 @@ export const Toolbar = ({ initialData, preview }: ToolbarProps) => {
         )}
       </div>
       {isEditing && !preview ? (
-        
+        <TextAreaAutoSize
+          ref={inputRef}
+          onBlur={disableInput}
+          onKeyDown={onKeyDown}
+          value={value}
+          onChange={(e) => onInput(e.target.value)}
+          className="text-5xl bg-transparent font-bold break-words outline-none text-[#3f3f3f] dark:text-[#cfcfcf] resize-none"
+        />
+      ) : (
+        <div
+          onClick={enableInput}
+          className="pb-[11.5px] text-5xl font-bold break-words outline-none text-[#3f3f3f] dark:text-[#cfcfcf]"
+        >
+          {initialData.title}
+        </div>
       )}
     </div>
   );
